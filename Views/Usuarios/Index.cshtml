@@ -1,0 +1,84 @@
+﻿@model X.PagedList.IPagedList<PractNET_2023.Models.Clases.Usuarios>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@using (Html.BeginForm("Index", "Usuarios", FormMethod.Get))
+{
+    <p>
+        <input type="text" name="searchTerm" placeholder="Buscar usuarios" value="@ViewBag.SearchTerm">
+        <button type="submit">Buscar</button>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Nickname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FechaDeNacimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nickname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeNacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination-container">
+    <div class="pagination">
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-action="Index" asp-route-page="1" class="btn btn-default">Primera</a>
+            <a asp-action="Index" asp-route-page="@Model.PageNumber - 1" class="btn btn-default">Anterior</a>
+        }
+
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <a asp-action="Index" asp-route-page="@i" class="btn @((i == Model.PageNumber) ? "btn-primary" : "btn-default")">@i</a>
+        }
+
+        @if (Model.HasNextPage)
+        {
+            <a asp-action="Index" asp-route-page="@Model.PageNumber + 1" class="btn btn-default">Siguiente</a>
+            <a asp-action="Index" asp-route-page="@Model.PageCount" class="btn btn-default">Última</a>
+        }
+    </div>
+</div>

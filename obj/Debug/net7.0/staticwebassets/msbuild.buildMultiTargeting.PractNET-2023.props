@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PractNET-2023.props" />
+</Project>
